@@ -1,2 +1,2 @@
-geometry: main.c
-	gcc -Wall -Werror -o geometry main.c
+all: main.c
+	gcc -Wall -Werror -lm -o geometry main.c
