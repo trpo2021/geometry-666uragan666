@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include <math.h>
 
-
 void check_circle(char* source, int max)
 {
     char check_s[]={'c','i','r','c','l','e','('};
@@ -25,11 +24,12 @@ void check_circle(char* source, int max)
     printf("\nError: expected 'circle'");
     exit(0);
     }
+
     //check for smth after ')'
     for (i = 0; i < max; i++) 
     {
         if (source[i] == ')') 
-        {
+        {   
             if (source[i+1] == '\0'){
             }
             else{
@@ -43,6 +43,28 @@ void check_circle(char* source, int max)
             }
         }   
     }
+
+    //check ')'
+    for (i = 0; i < max; i++) 
+    {
+        if (source[i] == '\0') 
+        {
+            if (source[i-1] == ')')
+            {
+                break;
+            }
+            else{
+                for (g = 0; g != (i-1); g++)
+                {
+                    printf(" ");
+                }
+                printf("^");
+                printf("\nError: expected ')'");
+                exit(0);
+            }
+        }   
+    }
+
     //check x
     for (i = 0; i < max; i++) 
     {
@@ -50,8 +72,7 @@ void check_circle(char* source, int max)
         {
             for (g = i; source[g + 1] != ' '; g++) 
             {
-                if (((source[g+1]<='9') && (source[g+1]>='1')) || (source[g+1] =='.'))
-                {
+                if (((source[g+1]<='9') && (source[g+1]>='0')) || (source[g+1] =='.')){
                 }
                 else{
                     for (k = 0; k != (g+1); k++)
@@ -65,6 +86,7 @@ void check_circle(char* source, int max)
             }
         }
     }
+
     //check y
     for (i = 0; i < max; i++) 
     {
@@ -76,7 +98,7 @@ void check_circle(char* source, int max)
                 {
                     for (g = i; source[g + 1] != ','; g++) 
                     {
-                        if (((source[g+1]<='9') && (source[g+1]>='1')) || (source[g+1] =='.')){
+                        if (((source[g+1]<='9') && (source[g+1]>='0')) || (source[g+1] =='.')){
                         }
                         else
                         {
@@ -93,6 +115,7 @@ void check_circle(char* source, int max)
             }       
         }
     }
+
     //check radius
     for (i = 0; i < max; i++) 
     {
@@ -100,11 +123,11 @@ void check_circle(char* source, int max)
         {
             for (g = (i+1); source[g + 1] != ')'; g++) 
             {
-                if (((source[g+1]<='9') && (source[g+1]>='1')) || (source[g+1] =='.')){
-
+                if (((source[g+1]<='9') && (source[g+1]>='0')) || (source[g+1] =='.')){
                 }
                 else{
-                    for (k = 0; k != (g+1); k++){
+                    for (k = 0; k != (g+1); k++)
+                    {
                         printf(" ");
                     }
                     printf("^");
@@ -114,18 +137,18 @@ void check_circle(char* source, int max)
             }
         }
     }
-
 }
 
 void out(char* source,int max)
 {   
-    for (int i = 0; i < max; i++){
+    for (int i = 0; i < max; i++)
+    {
         source[i]=tolower(source[i]);
     }
     printf("\n%s",source);
 }
 
-void counter_p_and_a(char* source, int max)
+void p_and_a_circle(char* source, int max)
 {
     int i, g;
     char rad[max];
@@ -145,7 +168,7 @@ void counter_p_and_a(char* source, int max)
     r = atof(rad);
     area = M_PI * r * r;
     perimeter = 2 * M_PI * r;
-    printf("\nperimeter = %.4f\narea = %.4f\n", perimeter, area);
+    printf("\n perimeter = %.4f\n area = %.4f\n", perimeter, area);
 }
 
 int main()
@@ -157,5 +180,5 @@ int main()
     scanf("%[^\n]s",source);
     check_circle(source, max);
     out(source, max);
-    counter_p_and_a(source, max);
+    p_and_a_circle(source, max);
 }
