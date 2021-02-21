@@ -5,16 +5,13 @@
 #include <math.h>
 
 
-void check_spell(char* source, int max)
+void check_circle(char* source, int max)
 {
     char check_s[]={'c','i','r','c','l','e','('};
-    char check_x1[max];
-    char check_x2[max];
-    char check_r[max];
-    
     int is_equal = 0;
-    int i;
+    int i,g,k,j;
 
+    //check circle
     for(i = 0; i<7; ++i)
     {
         if(tolower(source[i]) != check_s[i])
@@ -28,6 +25,96 @@ void check_spell(char* source, int max)
     printf("\nError: expected 'circle'");
     exit(0);
     }
+    //check for smth after ')'
+    for (i = 0; i < max; i++) 
+    {
+        if (source[i] == ')') 
+        {
+            if (source[i+1] == '\0'){
+            }
+            else{
+                for (g = 0; g != (i+1); g++)
+                {
+                    printf(" ");
+                }
+                printf("^");
+                printf("\nError: unexpected token");
+                exit(0);
+            }
+        }   
+    }
+    //check x
+    for (i = 0; i < max; i++) 
+    {
+        if (source[i] == '(') 
+        {
+            for (g = i; source[g + 1] != ' '; g++) 
+            {
+                if (((source[g+1]<='9') && (source[g+1]>='1')) || (source[g+1] =='.'))
+                {
+                }
+                else{
+                    for (k = 0; k != (g+1); k++)
+                    {
+                        printf(" ");
+                    }
+                    printf("^");
+                    printf("\nError: expected '<double>'");
+                    exit(0);
+                }
+            }
+        }
+    }
+    //check y
+    for (i = 0; i < max; i++) 
+    {
+        if (source[i] == ' ') 
+        {   
+            for (j = i; j < max; j++)
+            {
+                if (source[j] == ',')
+                {
+                    for (g = i; source[g + 1] != ','; g++) 
+                    {
+                        if (((source[g+1]<='9') && (source[g+1]>='1')) || (source[g+1] =='.')){
+                        }
+                        else
+                        {
+                            for (k = 0; k != (g+1); k++){
+                                printf(" ");
+                            }
+                            printf("^");
+                            printf("\nError: expected '<double>'");
+                    
+                            exit(0);
+                        }
+                    }        
+                } 
+            }       
+        }
+    }
+    //check radius
+    for (i = 0; i < max; i++) 
+    {
+        if ((source[i] == ',') && (source[i + 1] == ' ')) 
+        {
+            for (g = (i+1); source[g + 1] != ')'; g++) 
+            {
+                if (((source[g+1]<='9') && (source[g+1]>='1')) || (source[g+1] =='.')){
+
+                }
+                else{
+                    for (k = 0; k != (g+1); k++){
+                        printf(" ");
+                    }
+                    printf("^");
+                    printf("\nError: expected '<double>'");
+                    exit(0);
+                }
+            }
+        }
+    }
+
 }
 
 void out(char* source,int max)
@@ -68,7 +155,7 @@ int main()
 
     printf("Enter the shape in WKT-like format:\n");
     scanf("%[^\n]s",source);
-    check_spell(source, max);
+    check_circle(source, max);
     out(source, max);
     counter_p_and_a(source, max);
 }
