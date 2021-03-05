@@ -4,25 +4,36 @@
 #include <ctype.h>
 #include <math.h>
 
+void print_error(int i, int error){
+    for (int g = 0; g != (i+1); g++){
+        printf(" ");
+    }
+    printf("^");
+    if (error == 1){
+        printf("\nError: unexpected token");
+    }
+    if (error == 2){
+        printf("\nError: expected ')'");
+    }
+     if (error == 3){
+        printf("\nError: expected '<double>'");
+    }
+}
+
 void check_circle(char* source, int max)
 {
     char check_s[]={'c','i','r','c','l','e','('};
-    int is_equal = 0;
-    int i,g,k,j;
+    int i,g,j,err;
 
     //check circle
     for(i = 0; i<7; ++i)
     {
         if(tolower(source[i]) != check_s[i])
         {
-            is_equal = 1;
+            printf("^");
+            printf("\nError: expected 'circle'");
+            exit(0);
         }
-    }
-    if (is_equal != 0)
-    {
-    printf("^");
-    printf("\nError: expected 'circle'");
-    exit(0);
     }
 
     //check for smth after ')'
@@ -33,13 +44,9 @@ void check_circle(char* source, int max)
             if (source[i+1] == '\0'){
             }
             else{
-                for (g = 0; g != (i+1); g++)
-                {
-                    printf(" ");
-                }
-                printf("^");
-                printf("\nError: unexpected token");
-                exit(0);
+            err = 1; //Error: unexpected token
+            print_error(i, err);
+            exit(0);
             }
         }   
     }
@@ -54,13 +61,9 @@ void check_circle(char* source, int max)
                 break;
             }
             else{
-                for (g = 0; g != (i-1); g++)
-                {
-                    printf(" ");
-                }
-                printf("^");
-                printf("\nError: expected ')'");
-                exit(0);
+                err = 2; //Error: expected ')'
+                print_error(i, err);
+                exit(0); 
             }
         }   
     }
@@ -75,12 +78,8 @@ void check_circle(char* source, int max)
                 if (((source[g+1]<='9') && (source[g+1]>='0')) || (source[g+1] =='.')){
                 }
                 else{
-                    for (k = 0; k != (g+1); k++)
-                    {
-                        printf(" ");
-                    }
-                    printf("^");
-                    printf("\nError: expected '<double>'");
+                    err = 3; //Error: expected '<double>'
+                    print_error(g, err);
                     exit(0);
                 }
             }
@@ -102,12 +101,8 @@ void check_circle(char* source, int max)
                         }
                         else
                         {
-                            for (k = 0; k != (g+1); k++){
-                                printf(" ");
-                            }
-                            printf("^");
-                            printf("\nError: expected '<double>'");
-                    
+                            err = 3; //Error: expected '<double>'
+                            print_error(g, err);
                             exit(0);
                         }
                     }        
@@ -126,12 +121,8 @@ void check_circle(char* source, int max)
                 if (((source[g+1]<='9') && (source[g+1]>='0')) || (source[g+1] =='.')){
                 }
                 else{
-                    for (k = 0; k != (g+1); k++)
-                    {
-                        printf(" ");
-                    }
-                    printf("^");
-                    printf("\nError: expected '<double>'");
+                    err = 3; //Error: expected '<double>'
+                    print_error(g, err);
                     exit(0);
                 }
             }
@@ -139,7 +130,7 @@ void check_circle(char* source, int max)
     }
 }
 
-void out(char* source,int max)
+void out(char* source, int max)
 {   
     for (int i = 0; i < max; i++)
     {
